@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manpreet Singh - Data Scientist · Banking & ML</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f1f3d;
+      --navy2:   #1a3260;
+      --gold:    #b8912a;
+      --gold-lt: #f0c84a;
+      --body:    #374151;
+      --muted:   #6b7280;
+      --light:   #f8f9fb;
+      --border:  #e5e7eb;
+      --white:   #ffffff;
+      --card-bg: #fdfdfe;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--body); font-size: 15px; line-height: 1.7; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 58px; background: var(--navy);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 7%;
+    }
+    .nav-brand { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; color: #fff; text-decoration: none; }
+    .nav-brand span { color: var(--gold-lt); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-lt); }
+
+    /* ── LAYOUT ── */
+    section { padding: 55px 7%; }
+    .section-eyebrow { font-size: 0.67rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.45rem; display: block; }
+    .section-heading { font-family: 'Libre Baskerville', serif; font-size: clamp(1.8rem, 3vw, 2.35rem); font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 0.55rem; }
+    .rule { width: 34px; height: 2px; background: var(--gold); margin-bottom: 1.5rem; }
+
+    /* ── HERO ── */
+    #hero { padding-top: 58px; display: flex; align-items: center; background: var(--navy); position: relative; overflow: hidden; }
+    #hero::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 36%; background: rgba(255,255,255,0.015); clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%); }
+    .hero-inner { display: grid; grid-template-columns: auto 1fr; gap: 1.8rem; align-items: start; width: 100%; padding: 60px 7% 50px; position: relative; z-index: 1; }
+
+    .hero-name { font-family: 'Libre Baskerville', serif; font-size: clamp(1.6rem, 2.8vw, 2.6rem); font-weight: 700; line-height: 1.08; color: #fff; margin-bottom: 1rem; opacity: 0; animation: rise 0.6s 0.15s ease forwards; }
+    .hero-name em { display: block; font-style: italic; color: var(--gold-lt); font-weight: 400; font-size: 0.6em; padding-top: 5px;  }
+
+    .hero-tagline { font-size: clamp(0.86rem, 1.4vw, 0.98rem); color: rgba(255,255,255,0.52); max-width: 580px; line-height: 1.9; margin-bottom: 1.4rem; font-weight: 300; opacity: 0; animation: rise 0.6s 0.25s ease forwards; }
+    .hero-tagline strong { color: rgba(255,255,255,0.88); font-weight: 500; }
+
+    /* ── INNOVATIVE METRICS ── */
+    .hero-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 2.8rem; opacity: 0; animation: rise 0.6s 0.35s ease forwards; }
+    .metric-cell { background: rgba(255,255,255,0.02); padding: 1.3rem 1.1rem; position: relative; }
+    .metric-cell:hover { background: rgba(255,255,255,0.05); }
+    .metric-icon { font-size: 1rem; margin-bottom: 0.45rem; display: block; opacity: 0.7; }
+    .metric-value { font-family: 'Libre Baskerville', serif; display: block; line-height: 1; margin-bottom: 0.3rem; }
+    .metric-value .big { font-size: 1.7rem; color: var(--gold-lt); }
+    .metric-value .unit { font-size: 0.8rem; color: rgba(240,200,74,0.7); font-style: italic; margin-left: 2px; }
+    .metric-label { font-size: 0.67rem; color: rgba(255,255,255,0.38); line-height: 1.45; letter-spacing: 0.02em; }
+    .metric-sub { font-size: 0.62rem; color: rgba(240,200,74,0.55); margin-top: 3px; font-style: italic; }
+
+    .hero-ctas { display: flex; gap: 0.85rem; flex-wrap: wrap; opacity: 0; animation: rise 0.6s 0.45s ease forwards; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 6px; background: var(--gold); color: var(--navy); font-weight: 600; font-size: 0.81rem; letter-spacing: 0.04em; padding: 12px 22px; border-radius: 3px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 6px; background: transparent; color: rgba(255,255,255,0.65); font-weight: 400; font-size: 0.81rem; letter-spacing: 0.04em; padding: 12px 22px; border-radius: 3px; text-decoration: none; border: 1px solid rgba(255,255,255,0.18); transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+    .hero-photo-col { flex-shrink: 0; opacity: 0; animation: rise 0.6s 0.2s ease forwards; }
+    .hero-photo-frame { width: 144px; height: 144px; border-radius: 50%; border: 3px solid rgba(240,200,74,0.4); padding: 4px; }
+    .hero-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center top; background: var(--navy2); display: block; }
+
+    @keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── ABOUT ── */
+    #about { background: var(--light); border-top: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3.5rem; align-items: start; }
+    .info-table { width: 100%; border-collapse: collapse; }
+    .info-table tr { border-bottom: 1px solid var(--border); }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table td { padding: 10px 0; font-size: 0.92rem; vertical-align: top; }
+    .info-table td:first-child { color: var(--muted); font-weight: 500; width: 130px; padding-right: 1rem; }
+    .info-highlights { margin-top: 0.5rem; display: flex; flex-direction: column; gap: 4px; }
+    .info-hl { font-size: 0.82rem; color: var(--gold); display: flex; align-items: center; gap: 6px; }
+    .info-hl::before { content: '✦'; font-size: 0.6rem; }
+    .honour-pill { display: inline-flex; align-items: center; gap: 7px; background: #fffbee; border: 1px solid #d4a81c; border-radius: 3px; padding: 8px 13px; font-size: 0.86rem; color: #7a5c0a; font-weight: 500; margin-top: 1.3rem; }
+    .btn-navy { display: inline-flex; align-items: center; gap: 6px; background: var(--navy); color: #fff; font-weight: 500; font-size: 0.81rem; padding: 11px 20px; border-radius: 3px; text-decoration: none; margin-top: 1.5rem; transition: background 0.2s; }
+    .btn-navy:hover { background: var(--navy2); }
+
+    /* ── SKILLS ── */
+    .skill-section { margin-bottom: 1.7rem; }
+    .skill-section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); margin-bottom: 0.55rem; display: block; }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { font-size: 0.82rem; padding: 5px 11px; border: 1px solid #d4a81c; border-radius: 2px; color: var(--navy); background: #fdf6e3; font-weight: 500; transition: all 0.15s; }
+    .tag:hover { background: #fdefc5; border-color: var(--gold); }
+
+    /* ── SUMMARY ── */
+    #summary { background: var(--white); border-top: 1px solid var(--border); }
+    .summary-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3.5rem; align-items: start; }
+    .summary-text { font-size: 1.06rem; color: var(--body); line-height: 1.95; font-weight: 300; }
+    .summary-text strong { color: var(--navy); font-weight: 600; }
+    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kpi {
+      background: var(--white); padding: 1.4rem 1.3rem;
+      border: 1px solid var(--border); border-radius: 6px;
+      border-left: 4px solid var(--gold);
+      position: relative; overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .kpi:hover { box-shadow: 0 4px 16px rgba(184,145,42,0.1); transform: translateY(-2px); }
+    .kpi-icon {
+      font-size: 1.1rem; margin-bottom: 0.5rem; display: block; opacity: 0.75;
+    }
+    .kpi-num {
+      font-family: 'Libre Baskerville', serif; font-size: 2rem;
+      color: var(--navy); display: block; line-height: 1; margin-bottom: 5px; font-weight: 700;
+    }
+    .kpi-label { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .kpi-source {
+      font-size: 0.72rem; color: var(--gold); font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 0.6rem; display: block;
+    }
+    .kpi::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 60px; height: 60px;
+      background: radial-gradient(circle, rgba(184,145,42,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--light); border-top: 1px solid var(--border); }
+    .exp-item { display: grid; grid-template-columns: 160px 1fr; gap: 3rem; padding: 1.8rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { padding-top: 0; }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-period { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .exp-period-line { width: 26px; height: 2px; background: var(--gold); margin-bottom: 7px; }
+    .promo-tag { display: inline-block; margin-top: 7px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(184,145,42,0.4); padding: 2px 7px; border-radius: 2px; }
+    .exp-role { font-family: 'Libre Baskerville', serif; font-size: 1.12rem; color: var(--navy); font-weight: 700; margin-bottom: 3px; }
+    .exp-company { font-size: 0.86rem; color: var(--gold); font-weight: 500; letter-spacing: 0.03em; margin-bottom: 1rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .exp-bullets li { font-size: 0.92rem; color: var(--body); padding-left: 1.1rem; position: relative; line-height: 1.75; }
+    .exp-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+    .exp-bullets li strong { color: var(--navy); font-weight: 600; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--white); border-top: 1px solid var(--border); }
+    .proj-tabs { display: flex; margin-bottom: 2.4rem; border: 1px solid var(--border); border-radius: 3px; width: fit-content; overflow: hidden; }
+    .proj-tab { font-size: 0.71rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 18px; border: none; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.18s; border-right: 1px solid var(--border); font-family: 'Inter', sans-serif; }
+    .proj-tab:last-child { border-right: none; }
+    .proj-tab.active { background: var(--navy); color: #fff; }
+    .proj-tab:not(.active):hover { background: var(--light); color: var(--navy); }
+    .proj-panel { display: none; }
+    .proj-panel.active { display: block; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.1rem; }
+    .project-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
+    .project-card:hover { box-shadow: 0 5px 22px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .proj-header { height: 125px; display: flex; align-items: center; justify-content: center; font-size: 1.9rem; position: relative; }
+    .proj-label { position: absolute; bottom: 9px; left: 11px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.75); background: rgba(0,0,0,0.45); padding: 2px 7px; border-radius: 2px; }
+    .proj-badge { position: absolute; top: 9px; right: 9px; font-size: 0.6rem; color: var(--gold-lt); background: rgba(0,0,0,0.45); padding: 2px 6px; border-radius: 2px; }
+    .proj-body { padding: 1.2rem 1.3rem; flex: 1; display: flex; flex-direction: column; }
+    .proj-title { font-family: 'Libre Baskerville', serif; font-size: 1.03rem; color: var(--navy); font-weight: 700; margin-bottom: 0.4rem; line-height: 1.3; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.7rem; }
+    .stack-chip { font-size: 0.74rem; padding: 2px 7px; border: 1px solid var(--border); border-radius: 2px; color: var(--muted); background: var(--light); }
+    .proj-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; flex: 1; margin-bottom: 0.8rem; }
+    .proj-metric { font-size: 0.82rem; color: var(--gold); font-weight: 500; border-left: 2px solid var(--gold); padding-left: 7px; margin-bottom: 0.9rem; line-height: 1.45; }
+    .proj-link { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; color: var(--navy); text-decoration: none; display: inline-flex; align-items: center; gap: 3px; transition: color 0.2s; }
+    .proj-link:hover { color: var(--gold); }
+    .proj-link.off { color: var(--muted); pointer-events: none; }
+
+    /* ── CERTIFICATIONS ── */
+    #certifications { background: var(--light); border-top: 1px solid var(--border); }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 1rem; }
+    .cert-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 1.1rem 1.2rem; display: flex; align-items: center; gap: 1rem; text-decoration: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .cert-card:hover { border-color: var(--gold); box-shadow: 0 2px 12px rgba(184,145,42,0.08); }
+    .cert-icon-box { width: 34px; height: 34px; flex-shrink: 0; background: #fdf6e3; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+    .cert-name { font-size: 0.92rem; font-weight: 500; color: var(--navy); margin-bottom: 2px; line-height: 1.35; }
+    .cert-meta { font-size: 0.76rem; color: var(--muted); }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--white); border-top: 1px solid var(--border); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .edu-card { background: var(--light); border: 1px solid var(--border); border-top: 3px solid var(--navy); border-radius: 4px; padding: 1.4rem; }
+    .edu-degree { font-family: 'Libre Baskerville', serif; font-size: 1.06rem; color: var(--navy); font-weight: 700; margin-bottom: 3px; }
+    .edu-school { font-size: 0.87rem; color: var(--gold); font-weight: 500; margin-bottom: 4px; }
+    .edu-period { font-size: 0.73rem; color: var(--muted); }
+    .edu-pills { margin-top: 0.55rem; display: flex; flex-wrap: wrap; gap: 5px; }
+    .edu-pill { font-size: 0.7rem; font-weight: 600; padding: 3px 8px; background: #fffbee; border: 1px solid #d4a81c; color: #7a5c0a; border-radius: 2px; }
+    .edu-notes { font-size: 0.84rem; color: var(--muted); margin-top: 0.65rem; line-height: 1.65; }
+    .edu-notes span { color: var(--body); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--navy); border-top: 1px solid var(--border); }
+    #contact .section-eyebrow { color: var(--gold-lt); }
+    #contact .section-heading { color: #fff; }
+    #contact .rule { background: var(--gold-lt); }
+    .contact-desc { font-size: 0.95rem; color: rgba(255,255,255,0.48); line-height: 1.9; margin-bottom: 1.8rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.65rem; max-width: 480px; }
+    .contact-link { display: flex; align-items: center; gap: 12px; font-size: 0.92rem; color: rgba(255,255,255,0.7); text-decoration: none; padding: 11px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; background: rgba(255,255,255,0.03); transition: all 0.2s; }
+    .contact-link:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+    .contact-link svg { opacity: 0.45; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer { background: #0a1628; padding: 1.4rem 7%; display: flex; align-items: center; justify-content: space-between; font-size: 0.73rem; color: rgba(255,255,255,0.28); }
+    footer a { color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold-lt); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) { .hero-metrics { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      section { padding: 70px 5%; }
+      .hero-inner { grid-template-columns: 1fr; padding: 60px 5% 70px; }
+      .hero-photo-col { display: none; }
+      .about-grid, .summary-body, .edu-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#hero">Manpreet <span>Singh</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-photo-col">
+      <div class="hero-photo-frame">
+        <img src="images/about-me.jpg" alt="Manpreet Singh" class="hero-photo">
+      </div>
+    </div>
+    <div>
+      <h1 class="hero-name">
+        Manpreet Singh
+        <em>Data Scientist &amp; Engineer</em>
+      </h1>
+      <p class="hero-tagline">
+        <strong>Data Scientist</strong> with <strong>3+ years in machine learning and analytics</strong>, backed by an <strong>8+ year software engineering foundation</strong> and an <strong>MBA in Business Analytics</strong>.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <a href="https://drive.google.com/uc?export=download&id=1Pa6y9X1yBU7zuD4skoGktTIzXSQ2Dci4" class="btn-ghost" download>↓ Download CV</a>  
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <span class="section-eyebrow">Background</span>
+      <h2 class="section-heading">About Me</h2>
+      <div class="rule"></div>
+      <table class="info-table">
+        <tr>
+          <td>Last Role</td>
+          <td>
+            Data Engineer II - TD Bank, Toronto, ON
+            <div class="info-highlights">
+              <span class="info-hl">1M+ daily AML transactions processed</span>
+              <span class="info-hl">FINTRAC compliance · EFTR pipeline monitoring</span>
+              <span class="info-hl">Wealth management data migration</span>
+            </div>
+          </td>
+        </tr>
+        <tr><td>Education</td><td>MBA Business Analytics (3.9/4.0 GPA) · B.Eng Computer Science</td></tr>
+        <tr><td>Domain Focus</td><td>Banking · AML / FINTRAC · Fraud Detection · Public Sector</td></tr>
+
+        <tr><td>Location</td><td>Ontario, Canada</td></tr>
+      </table>
+      <div class="honour-pill">🏅 Beta Gamma Sigma - Top 5% of MBA class · Dedicated Student Award</div>
+      <br>
+      <a href="https://www.linkedin.com/in/manpreet-singh-ds/" class="btn-navy" target="_blank">Connect on LinkedIn →</a>
+    </div>
+    <div>
+      <span class="section-eyebrow" style="display:block;margin-bottom:1.5rem;">Technical Skills</span>
+
+      <div class="skill-section">
+        <span class="skill-section-label">Languages</span>
+        <div class="tag-group">
+          <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">PySpark</span>
+          <!-- <span class="tag">Java</span><span class="tag">JavaScript / React</span> -->
+          <span class="tag">Streamlit</span>
+        </div>
+      </div>
+
+      <div class="skill-section">
+        <span class="skill-section-label">ML &amp; AI</span>
+        <div class="tag-group">
+          <span class="tag">XGBoost</span><span class="tag">Random Forest</span><span class="tag">Logistic Regression</span>
+          <span class="tag">Bidirectional LSTM</span><span class="tag">spaCy NER</span><span class="tag">LangChain RAG</span>
+          <span class="tag">LDA / NMF</span><span class="tag">K-Means / PCA</span>
+          <span class="tag">Anomaly Detection</span><span class="tag">A/B Testing</span>
+        </div>
+      </div>
+
+      <div class="skill-section">
+        <span class="skill-section-label">Data Engineering &amp; MLOps</span>
+        <div class="tag-group">
+          <span class="tag">Azure Synapse</span><span class="tag">Azure Data Factory</span>
+          <span class="tag">Delta Tables</span><span class="tag">ETL / ELT Pipelines</span>
+          <span class="tag">Informatica</span><span class="tag">Datadog</span>
+          <span class="tag">MLflow</span><span class="tag">Docker</span>
+          <span class="tag">CI/CD</span><span class="tag">Azure ML</span>
+          <span class="tag">Foundry AI</span><span class="tag">AWS SageMaker</span>
+        </div>
+      </div>
+
+      <div class="skill-section">
+        <span class="skill-section-label">BI &amp; Visualization</span>
+        <div class="tag-group">
+          <span class="tag">Power BI</span><span class="tag">Tableau</span>
+          <span class="tag">WebFocus</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUMMARY ═══ -->
+<section id="summary">
+  <div class="summary-body">
+    <div>
+      <span class="section-eyebrow">Profile</span>
+      <h2 class="section-heading">What I Do</h2>
+      <div class="rule"></div>
+      <p class="summary-text">
+        Data Scientist with <strong>3+ years in machine learning and analytics</strong>, backed by <strong>8+ years of software engineering</strong> and an <strong>MBA in Business Analytics</strong>.
+        Deliberately transitioned into data science through banking client engagements, validated by production roles at <strong>TD Bank</strong> and the <strong>Ministry of Transportation</strong>.
+        Delivered high-stakes enterprise initiatives: automated pipelines generating <strong>$500K CAD in annual savings</strong>,
+        a 10-year historical fraud data migration spanning <strong>8 distinct fraud patterns</strong>,
+        and production <strong>AML pipelines processing 1M+ daily transactions</strong> under FINTRAC regulatory standards.
+        Specialises in <strong>credit risk modelling, fraud detection, and AML pipelines</strong> - translating complex datasets into regulated, <strong>audit-ready business decisions</strong>.
+      </p>
+    </div>
+    <div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <span class="kpi-icon">💰</span>
+          <span class="kpi-num">$500K</span>
+          <span class="kpi-label">CAD annual savings via NTR pipeline automation</span>
+          <span class="kpi-source">Ontario MTO</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-icon">🛡️</span>
+          <span class="kpi-num">95%</span>
+          <span class="kpi-label">Recall on PII redaction pipeline across 70K+ documents</span>
+          <span class="kpi-source">spaCy NER · Ontario MTO</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-icon">⚡</span>
+          <span class="kpi-num">70%</span>
+          <span class="kpi-label">Reduction in manual query-building via LangChain RAG</span>
+          <span class="kpi-source">RAG · NL-to-SQL POC</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-icon">🔧</span>
+          <span class="kpi-num">40%</span>
+          <span class="kpi-label">Merge conflict reduction via CI/CD DevOps practices</span>
+          <span class="kpi-source">CI/CD · GitHub · Code Reviews</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience">
+  <span class="section-eyebrow">Career</span>
+  <h2 class="section-heading">Work Experience</h2>
+  <div class="rule"></div>
+
+  <!-- TD Bank -->
+  <div class="exp-item">
+    <div>
+      <div class="exp-period-line"></div>
+      <div class="exp-period">May 2025 – Aug 2025</div>
+    </div>
+    <div>
+      <div class="exp-role">Data Engineer II</div>
+      <div class="exp-company">TD Bank · Toronto, ON</div>
+      <ul class="exp-bullets">
+        <li>Resolved production <strong>data masking and JSON parsing issues</strong> across ETL pipelines, processing <strong>1M+ daily transactions</strong> into schema-segregated (individual vs. organisation) consumption layers, ensuring clean, compliant features for downstream <strong>AML fraud models</strong>.</li>
+        <li>Debugged <strong>Enterprise Data Catalog</strong> metadata and authored complex <strong>Synapse SQL queries</strong>, restoring <strong>Power BI dashboard accuracy</strong> for Customer Personal Banking stakeholders within SLA.</li>
+        <li>Monitored <strong>CAD 10K+ Electronic Fund Transfer pipelines</strong> via Datadog, identifying transaction irregularities and standardising <strong>AML ingestion workflows</strong> to ensure <strong>FINTRAC regulatory compliance</strong>.</li>
+        <li>Validated data contracts and resolved schema mismatches during <strong>wealth management migration</strong> (accounts, holdings, transactions, tax attributes), ensuring upstream feature integrity for <strong>data science model consumption</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Ontario MTO -->
+  <div class="exp-item">
+    <div>
+      <div class="exp-period-line"></div>
+      <div class="exp-period">Jan 2024 – Apr 2025</div>
+      <div class="promo-tag">↑ Promoted in 10 months</div>
+    </div>
+    <div>
+      <div class="exp-role">Data Scientist · Programmer Analyst</div>
+      <div class="exp-company">Ministry of Transportation · Ontario</div>
+      <ul class="exp-bullets">
+        <li>Profiled and engineered structured and unstructured features (VIN, SIN, licence, ownership) across <strong>10 years of legacy driver and vehicle records</strong> to train <strong>XGBoost, Random Forest, and Logistic Regression</strong> models across <strong>8 fraud patterns</strong>, accelerating production delivery by 4 weeks.</li>
+        <li>Built a production <strong>spaCy NER + regex redaction pipeline</strong> to identify and mask <strong>PII</strong> (names, organisations, emails) across <strong>70K+ documents</strong> at 95% recall, enabling compliant downstream model training.</li>
+        <li>Developed a <strong>LangChain RAG pipeline</strong> for natural language-to-SQL conversion, enabling self-serve data exploration for non-technical stakeholders and reducing manual query-building time by <strong>70%</strong>.</li>
+        <li>Delivered <strong>$500K annual licensing cost reduction</strong> by automating <strong>NTR enforcement reporting pipelines</strong>, transforming WebFocus SQL feeds into <strong>Power BI dashboards</strong> and reducing manual reporting effort by <strong>50%</strong>.</li>
+        <li>Applied <strong>Informatica</strong> data quality rules and <strong>Python profiling</strong> to cleanse collision probability datasets, integrating geographic feature inputs and resolving multi-year driver/vehicle record inconsistencies to produce <strong>audit-ready training data</strong> for ML models.</li>
+        <li>Implemented <strong>CI/CD pipelines</strong> with feature branching and PR-based code reviews, reducing merge conflicts by 40%; mentored 3+ co-op analysts through structured code reviews and pair programming.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Nagarro -->
+  <div class="exp-item">
+    <div>
+      <div class="exp-period-line"></div>
+      <div class="exp-period">Mar 2018 – Jul 2022</div>
+    </div>
+    <div>
+      <div class="exp-role">Staff Engineer, Data Scientist</div>
+      <div class="exp-company">Nagarro Software Pvt. Ltd.</div>
+      <ul class="exp-bullets">
+        <li>Transitioned mid-engagement from front-end into data science at a <strong>Middle Eastern retail bank</strong>, built <strong>clickstream pipeline</strong>, customer journey models, and <strong>campaign attribution in Python</strong>, improving targeting precision by <strong>25%</strong> and reducing wasted acquisition spend across <strong>1M+ user base</strong>.</li>
+        <li>Designed <strong>K-Means segmentation</strong> with <strong>RFM feature engineering</strong> for a European bank's credit card portfolio, delivering <strong>6 behavioural customer tiers</strong> adopted by pricing and product teams, informing a re-pricing strategy across the mid-risk segment.</li>
+        <li>Built <strong>credit risk scoring pipeline</strong> using <strong>Logistic Regression and XGBoost</strong> to support risk-based pricing decisions, reducing manual credit review effort by <strong>30%</strong> and delivering <strong>regulatory-aligned model documentation</strong> cleared by internal audit.</li>
+        <li>Defined <strong>KPI schemas, event taxonomies, and data-capture standards</strong> across both banking engagements, reducing analytics onboarding time by <strong>40%</strong> and enabling consistent reporting across multi-region product and risk teams.</li>
+        <li>Built the analytical foundation through <strong>front-end engineering</strong> on e-commerce and gaming platforms, applying <strong>behavioural tracking and instrumentation</strong> experience directly to banking data pipeline design from 2020 onward.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Delta Corp - promoted to FULL timeline entry -->
+  <div class="exp-item">
+    <div>
+      <div class="exp-period-line"></div>
+      <div class="exp-period">Dec 2013 – Mar 2018</div>
+    </div>
+    <div>
+      <div class="exp-role">Sr. Software Developer &amp; Scrum Master</div>
+      <div class="exp-company">Delta Corp Pvt. Ltd.</div>
+      <ul class="exp-bullets">
+        <li>Led <strong>Scrum delivery</strong> across two concurrent gaming products, improving <strong>sprint velocity by 20%</strong> and resource utilisation by 15%, contributing to <strong>42% YoY revenue growth</strong> and <strong>30% increase in recurring users</strong> on a production platform.</li>
+        <li>Engineered <strong>casino and fantasy league gaming platforms</strong> from the ground up, enforcing <strong>Git-based version control</strong>, code review standards, and agile best practices across a 4-member team, maintaining <strong>95% on-time delivery</strong> and production-ready code quality throughout.</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <span class="section-eyebrow">Portfolio</span>
+  <h2 class="section-heading">Selected Projects</h2>
+  <div class="rule"></div>
+
+  <div class="proj-tabs">
+    <button class="proj-tab active" onclick="switchTab('all',this)">All</button>
+    <button class="proj-tab" onclick="switchTab('ds',this)">Data Science &amp; ML</button>
+    <button class="proj-tab" onclick="switchTab('bi',this)">BI &amp; Analytics</button>
+    <!-- <button class="proj-tab" onclick="switchTab('de',this)">Data Engineering</button> -->
+  </div>
+
+  <!-- ALL PROJECTS (source of truth) -->
+  <div id="panel-all" class="proj-panel active">
+    <div class="projects-grid" id="all-grid">
+
+      <div class="project-card" data-cat="ds">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0f1f3d,#1a3260);">🏦<div class="proj-label">ML · Finance</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Loan Eligibility Prediction</div>
+          <div class="proj-stack"><span class="stack-chip">Python</span><span class="stack-chip">Scikit-learn</span><span class="stack-chip">Naive Bayes</span><span class="stack-chip">Feature Eng.</span></div>
+          <p class="proj-desc">Naive Bayes classification model predicting loan eligibility with advanced feature engineering and normalisation - outperforming Decision Tree baseline for bank automation workflows.</p>
+          <div class="proj-metric">82% accuracy · Decision Tree outperformed</div>
+          <a href="https://github.com/mappy92/Loan-Eligibility-Prediction" class="proj-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="ds">
+        <div class="proj-header" style="background:linear-gradient(135deg,#200a0a,#3b1010);">🔒<div class="proj-label">ML · Fraud</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Credit Card Fraud Detection</div>
+          <div class="proj-stack"><span class="stack-chip">Python</span><span class="stack-chip">Scikit-learn</span><span class="stack-chip">Imbalanced Data</span><span class="stack-chip">Cross-Validation</span></div>
+          <p class="proj-desc">End-to-end ML framework covering data ingestion, cleaning, advanced feature engineering, cross-validation, and high-fidelity evaluation metrics for financial fraud pattern detection.</p>
+          <div class="proj-metric">Imbalanced dataset · advanced feature engineering</div>
+          <a href="https://github.com/mappy92/Credit-Card-Fraud-Detection" class="proj-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="ds">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0a1628,#1a3a5c);">🤖<div class="proj-label">NLP · Azure</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Text Summarization Pipeline</div>
+          <div class="proj-stack"><span class="stack-chip">PEGASUS</span><span class="stack-chip">HuggingFace</span><span class="stack-chip">Python</span><span class="stack-chip">ROUGE</span></div>
+          <p class="proj-desc">Production-ready NLP pipeline for abstractive summarisation using PEGASUS transformer - automating ingestion, tokenisation, training, and ROUGE-based evaluation.</p>
+          <div class="proj-metric">Modular pipeline · ROUGE evaluation · production-ready</div>
+          <a href="https://github.com/mappy92/Text-Summarization-app" class="proj-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="project-card" data-cat="bi">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0f1a0a,#1e3b10);">📊<div class="proj-label">Power BI · SQL</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Sales Insights Dashboard</div>
+          <div class="proj-stack"><span class="stack-chip">Power BI</span><span class="stack-chip">SQL</span><span class="stack-chip">ETL</span></div>
+          <p class="proj-desc">Revenue analysis by region, customer, and product for an online hardware store - SQL queries, ETL pipeline, and interactive Power BI reporting with drill-through capability.</p>
+          <div class="proj-metric">Region · Customer · Product revenue breakdown</div>
+          <a href="https://github.com/mappy92/Sales-insights" class="proj-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+       <div class="project-card" data-cat="ds">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0a1a2e,#0f3460);">📈<div class="proj-label">ML · Forecasting</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Time Series Sales Forecasting</div>
+          <div class="proj-stack"><span class="stack-chip">Python</span><span class="stack-chip">ARIMA / SARIMA</span><span class="stack-chip">Holt-Winters</span><span class="stack-chip">Statsmodels</span><span class="stack-chip">pmdarima</span></div>
+          <p class="proj-desc">End-to-end predictive pipeline on 9,800 retail sales records — seasonal decomposition, ADF stationarity testing, auto-ARIMA parameter tuning, and 12-month revenue forecast with 70/80/95% confidence intervals.</p>
+          <div class="proj-metric">12-month outlook · Multi-level confidence intervals · Inventory optimisation</div>
+          <a href="https://github.com/mappy92/Time-Series-Forecasting-ML" class="proj-link" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <!-- <div class="project-card" data-cat="bi">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0a1628,#103060);">💳<div class="proj-label">Excel · Finance</div><div class="proj-badge">Coming Soon</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Loan Portfolio Analysis</div>
+          <div class="proj-stack"><span class="stack-chip">Excel</span><span class="stack-chip">Pivot Tables</span><span class="stack-chip">Loan Analytics</span></div>
+          <p class="proj-desc">In-depth loan portfolio analysis covering approval rates, risk factors, disbursement trends, and eligibility patterns across borrower segments - built in Advanced Excel.</p>
+          <div class="proj-metric">Approval · Risk · Disbursement analytics</div>
+          <a href="#" class="proj-link off">GitHub upload coming soon</a>
+        </div>
+      </div> -->
+
+      <!-- <div class="project-card" data-cat="bi">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0a0a1e,#1a1a3b);">🗂️<div class="proj-label">Tableau · Finance</div><div class="proj-badge">Coming Soon</div></div>
+        <div class="proj-body">
+          <div class="proj-title">Credit Card Complaints Analysis</div>
+          <div class="proj-stack"><span class="stack-chip">Tableau</span><span class="stack-chip">Financial Services</span><span class="stack-chip">Consumer Analytics</span></div>
+          <p class="proj-desc">Visual analysis of credit card complaint trends, resolution rates, and issue categories - built for financial services consumer insight and regulatory reporting.</p>
+          <div class="proj-metric">Complaint trends · Resolution rate analysis</div>
+          <a href="#" class="proj-link off">GitHub upload coming soon</a>
+        </div>
+      </div> -->
+
+      <!-- <div class="project-card" data-cat="bi">
+        <div class="proj-header" style="background:linear-gradient(135deg,#1a1006,#3b2a0a);">📈<div class="proj-label">Tableau · E-com</div><div class="proj-badge">Coming Soon</div></div>
+        <div class="proj-body">
+          <div class="proj-title">E-commerce Sales Dashboard</div>
+          <div class="proj-stack"><span class="stack-chip">Tableau</span><span class="stack-chip">SQL</span><span class="stack-chip">Sales Analytics</span></div>
+          <p class="proj-desc">Interactive Tableau dashboard tracking sales performance, product trends, and customer segments with time-series trend analysis.</p>
+          <div class="proj-metric">Sales · Product · Segment KPIs</div>
+          <a href="#" class="proj-link off">GitHub upload coming soon</a>
+        </div>
+      </div> -->
+
+      <!-- <div class="project-card" data-cat="de">
+        <div class="proj-header" style="background:linear-gradient(135deg,#0a1e18,#0d3b35);">⚙️<div class="proj-label">Azure · ETL</div></div>
+        <div class="proj-body">
+          <div class="proj-title">NTR Automated Reporting Pipeline</div>
+          <div class="proj-stack"><span class="stack-chip">Azure Synapse</span><span class="stack-chip">WebFocus</span><span class="stack-chip">Python</span><span class="stack-chip">SQL</span></div>
+          <p class="proj-desc">Automated Notice to Report (NTR) data pipelines at the Ontario MTO - migrating legacy WebFocus reports and reducing processing time by 30% for 5+ Police Services departments.</p>
+          <div class="proj-metric">$500K CAD annual savings · 30% faster processing</div>
+          <a href="#" class="proj-link off">Enterprise project - NDA</a>
+        </div>
+      </div> -->
+
+    </div>
+  </div>
+
+  <!-- Filtered panels - all cards live here, shown/hidden by JS -->
+  <div id="panel-ds" class="proj-panel"><div class="projects-grid" id="ds-grid"></div></div>
+  <div id="panel-bi" class="proj-panel"><div class="projects-grid" id="bi-grid"></div></div>
+  <div id="panel-de" class="proj-panel"><div class="projects-grid" id="de-grid"></div></div>
+</section>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<section id="certifications">
+  <span class="section-eyebrow">Credentials</span>
+  <h2 class="section-heading">Certifications</h2>
+  <div class="rule"></div>
+  <div class="certs-grid">
+    <a href="https://learn.microsoft.com/en-us/users/manpreetsingh-8228/credentials/20fb369304898032?ref=https%3A%2F%2Fwww.linkedin.com%2F" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">Azure Data Scientist Associate</div><div class="cert-meta">Microsoft · DP-100 · Oct 2025</div></div>
+    </a>
+    <a href="https://github.com/mappy92/Certifications/blob/main/Microsoft%20Power%20BI%20Data%20Analyst.pdf" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">Power BI Data Analyst Professional Certificate</div><div class="cert-meta">Microsoft · Jul 2024</div></div>
+    </a>
+    <a href="https://www.linkedin.com/in/manpreet-singh-ds/overlay/Certifications/476865123/treasury/?profileId=ACoAAAhMv_QBCk-vM63IneaqFwQN8dGLVKMc3Iw" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">Advanced SQL</div><div class="cert-meta">HackerRank · Feb 2026</div></div>
+    </a>
+    <a href="https://github.com/mappy92/Certifications/blob/main/SQL%20for%20Data%20Science.pdf" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">SQL for Data Science</div><div class="cert-meta">Coursera · UC Davis · Feb 2024</div></div>
+    </a>
+    <a href="https://github.com/mappy92/Certifications/blob/main/Python%20Specialization.pdf" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">Python for Everybody Specialization</div><div class="cert-meta">Coursera · University of Michigan</div></div>
+    </a>
+    <a href="https://github.com/mappy92/Certifications/blob/main/Data%20Analysis%20in%20Excel.pdf" class="cert-card" target="_blank">
+      <div class="cert-icon-box"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><div class="cert-name">Data Analysis in Excel</div><div class="cert-meta">Microsoft · Rice University · Jan 2024</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education">
+  <span class="section-eyebrow">Academic Background</span>
+  <h2 class="section-heading">Education</h2>
+  <div class="rule"></div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-degree">MBA · Business &amp; Data Analytics</div>
+      <div class="edu-school">Goodman School of Business · Brock University, Ontario</div>
+      <div class="edu-period">Aug 2022 – Oct 2024 · Co-op Program</div>
+      <div class="edu-pills"><span class="edu-pill">86% Average</span><span class="edu-pill">Beta Gamma Sigma</span></div>
+      <div class="edu-notes">Honours: <span>Top 5% of class · Dedicated Student Award</span></div>
+      <div class="edu-notes">Coursework: <span>Advanced Business Analytics · AI · DBMS · Statistical Research · Project Management</span></div>
+      <div class="edu-notes" style="font-style:italic;margin-top:0.4rem;">Key Projects: <span>Loan Eligibility Prediction (82% accuracy) · Airline Sentiment Analysis (NLP, 50K tweets) · Car Insurance Segmentation (K-Means, 42% response lift)</span></div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">Bachelor of Engineering · Computer Science</div>
+      <div class="edu-school">Thapar University · Patiala, Punjab, India</div>
+      <div class="edu-period">May 2008 – Jul 2012</div>
+      <div class="edu-pills"><span class="edu-pill">6.82 CGPA</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <span class="section-eyebrow">Let's Talk</span>
+  <h2 class="section-heading">Get In Touch</h2>
+  <div class="rule" style="background:var(--gold-lt)"></div>
+  <p class="contact-desc">Open to senior Data Scientist and ML Engineer roles in banking, fintech, and public sector in Ontario. Particularly interested in teams building production ML, AML detection, or analytics platforms on Azure.</p>
+  <div class="contact-links">
+    <a href="mailto:manpreet4114@gmail.com" class="contact-link">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+      manpreet4114@gmail.com
+    </a>
+    <a href="https://www.linkedin.com/in/manpreet-singh-ds/" class="contact-link" target="_blank">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2" stroke-width="1.5"/></svg>
+      linkedin.com/in/manpreet-singh-ds
+    </a>
+    <a href="https://github.com/mappy92" class="contact-link" target="_blank">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+      github.com/mappy92
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Manpreet Singh</span>
+  <span>Data Scientist · Banking &amp; ML · Ontario, Canada</span>
+  <a href="https://github.com/mappy92" target="_blank">GitHub</a>
+</footer>
+
+<script>
+  function switchTab(cat, btn) {
+    document.querySelectorAll('.proj-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Hide all panels
+    document.querySelectorAll('.proj-panel').forEach(p => p.classList.remove('active'));
+
+    if (cat === 'all') {
+      document.getElementById('panel-all').classList.add('active');
+      return;
+    }
+
+    // Populate filtered grid on first use
+    const grid = document.getElementById(cat + '-grid');
+    if (grid.children.length === 0) {
+      document.querySelectorAll('#all-grid .project-card').forEach(card => {
+        if (card.getAttribute('data-cat') === cat) {
+          const clone = card.cloneNode(true);
+          grid.appendChild(clone);
+        }
+      });
+    }
+
+    document.getElementById('panel-' + cat).classList.add('active');
+  }
+</script>
+</body>
+</html>
